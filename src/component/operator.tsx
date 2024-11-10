@@ -1,20 +1,38 @@
 import { Fragment, useMemo } from 'react';
 import { Binary } from './binary';
-import { Bitwise } from '../models';
+import { Bitwise, BITWISE_OPERATORS } from '../models';
 
 export const Operator = ({ nums, operator }: { nums: number[]; operator: Bitwise }) => {
+    const xorFn = (num1: number, num2: number) => {
+       return num1^num2; 
+    };
+
+    const orFn = (num1: number, num2: number) => {
+        return num1^num2; 
+    };
+
+    const andFn = (num1: number, num2: number) => {
+        return num1^num2; 
+    };
 
     const total = useMemo(() => {
-        switch(operator) {
-            case 'xor':
-                return nums.reduce((prev, curr) => prev^curr);
-            case 'and':
-                return nums.reduce((prev, curr) => prev & curr);
-            case 'or':
-                return nums.reduce((prev, curr) => prev | curr);
+        let fn;
+
+        if (operator === BITWISE_OPERATORS.XOR) {
+            fn = xorFn;
+        }
+        if (operator === BITWISE_OPERATORS.AND) {
+            fn = andFn;
+        }
+        if (operator === BITWISE_OPERATORS.OR) {
+            fn = orFn;
         }
 
-        throw new Error('Bitwise unknown');
+        if (!fn) {
+            throw new Error('Bitwise unknown');
+        }
+
+        return nums.reduce(fn);
     }, [nums, operator]);
 
 
