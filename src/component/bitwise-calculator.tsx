@@ -24,7 +24,11 @@ export const BitwiseCalculator = () => {
                     ))}
                 </select>
             </div>
-            {nums?.length ? <Operator nums={nums} operator={operator} /> : <div>Please add numbers</div>}
+            {nums?.length ? (
+                <Operator nums={nums} operator={operator} />
+            ) : (
+            <div className='text-gray-400'>Please add numbers</div>
+            )}
         </div>
     );
 }
