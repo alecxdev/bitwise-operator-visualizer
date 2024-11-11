@@ -1,19 +1,10 @@
 import { Fragment, useMemo } from 'react';
 import { Binary } from './binary';
 import { Bitwise, BITWISE_OPERATORS } from '../models';
+import { andFn, orFn, xorFn } from '../services/bitwise';
 
 export const Operator = ({ nums, operator }: { nums: number[]; operator: Bitwise }) => {
-    const xorFn = (num1: number, num2: number) => {
-       return num1 ^ num2; 
-    };
-
-    const orFn = (num1: number, num2: number) => {
-        return num1 | num2; 
-    };
-
-    const andFn = (num1: number, num2: number) => {
-        return num1 & num2; 
-    };
+    
 
     const total = useMemo(() => {
         let fn;

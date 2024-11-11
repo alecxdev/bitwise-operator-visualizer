@@ -1,0 +1,11 @@
+export const xorFn = (num1: number, num2: number) => {
+    return num1 ^ num2;
+};
+
+export const orFn = (num1: number, num2: number) => {
+    return num1 | num2;
+};
+
+export const andFn = (num1: number, num2: number) => {
+    return num1 & num2;
+};
