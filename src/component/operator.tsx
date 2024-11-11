@@ -1,10 +1,10 @@
-import { Fragment, useMemo } from 'react';
+import { Fragment, useMemo, useState } from 'react';
 import { Binary } from './binary';
 import { Bitwise, BITWISE_OPERATORS } from '../models';
 import { andFn, orFn, xorFn } from '../services/bitwise';
 
-export const Operator = ({ nums, operator }: { nums: number[]; operator: Bitwise }) => {
-    
+export const Operator = ({ nums, operator }: { nums: number[]; operator: Bitwise }) => {    
+    const [maxSize, setMaxSize] = useState(0);
 
     const total = useMemo(() => {
         let fn;
@@ -23,7 +23,10 @@ export const Operator = ({ nums, operator }: { nums: number[]; operator: Bitwise
             throw new Error('Bitwise unknown');
         }
 
-        return nums.reduce(fn);
+        return nums.reduce((prev, curr) => {
+            setMaxSize(v => v > curr.toString(2).length ? v : curr.toString(2).length);
+            return fn(prev, curr);
+        });
     }, [nums, operator]);
 
 
@@ -35,7 +38,10 @@ export const Operator = ({ nums, operator }: { nums: number[]; operator: Bitwise
             <span>Decimal</span>
             {nums.map((num, i) => (
                 <Fragment key={i}>
-                    <Binary className='odd:bg-gray-100 rounded-l-lg text-right'>{num}</Binary>
+                    <Binary
+                    className='odd:bg-gray-100 rounded-l-lg text-right'
+                    bitSize={maxSize}
+                    >{num}</Binary>
                     {/* <button>^</button>
                     <button>|</button>
                     <button>&</button> */}
@@ -44,7 +50,7 @@ export const Operator = ({ nums, operator }: { nums: number[]; operator: Bitwise
             ))}
         </div>
             <hr className='my-4 border-b w-full' />
-            <div>=&emsp;<Binary className="font-bold" bitSize={10}>{total}</Binary> -&gt; {total}</div>
+            <div>=&emsp;<Binary className="font-bold">{total}</Binary> -&gt; {total}</div>
         </>
     )
 }
