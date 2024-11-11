@@ -4,15 +4,15 @@ import { Bitwise, BITWISE_OPERATORS } from '../models';
 
 export const Operator = ({ nums, operator }: { nums: number[]; operator: Bitwise }) => {
     const xorFn = (num1: number, num2: number) => {
-       return num1^num2; 
+       return num1 ^ num2; 
     };
 
     const orFn = (num1: number, num2: number) => {
-        return num1^num2; 
+        return num1 | num2; 
     };
 
     const andFn = (num1: number, num2: number) => {
-        return num1^num2; 
+        return num1 & num2; 
     };
 
     const total = useMemo(() => {
