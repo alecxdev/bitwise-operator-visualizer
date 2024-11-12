@@ -29,8 +29,6 @@ export const Animation = ({ children }: Props) => {
     
     return (
         children({
-            // if animation ends, return to opacity 0,
-            // because animation only takes the time that you typed on animation class
             animation: `show ${animate ? 'show-start' : 'show-end'}`,
             startAnimation
         })
