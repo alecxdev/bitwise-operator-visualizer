@@ -18,6 +18,7 @@
 }
 .show-start {
   animation: show 1500ms;
+  animation-fill-mode: forwards;
 }
 .show-end {
   opacity: 1;

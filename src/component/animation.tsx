@@ -8,29 +8,44 @@ interface ChildrenProps {
 interface Props {
     children: (props: ChildrenProps) => React.ReactNode;
 }
+
+const ANIMATIONS_STATES = {
+    START: 'start',
+    END: 'end',
+    NONE: 'none'
+} as const;
+
+type AnimationStates = typeof ANIMATIONS_STATES[keyof typeof ANIMATIONS_STATES];
+
 export const Animation = ({ children }: Props) => {
-    const [animate, setAnimate] = useState(false);
+    const [animate, setAnimate]= useState<AnimationStates>(ANIMATIONS_STATES.NONE);
     const timeoutRef = useRef<number>();
 
     useEffect(() => () => {
-        if (timeoutRef.current) {
-            clearTimeout(timeoutRef.current);
-        }
+        clearTimeout(timeoutRef.current);
     }, []);
 
     const startAnimation = useCallback((props: Parameters<ChildrenProps['startAnimation']>[0]) => {
-        setAnimate(true);
-        const delay = props?.delay ?? 0;
-        
-        timeoutRef.current = setTimeout(() => {
-            setAnimate(false);
-        }, 1500 + delay);
+        setAnimate(ANIMATIONS_STATES.NONE);
+        clearTimeout(timeoutRef.current);
+        setTimeout(() => {
+            setAnimate(ANIMATIONS_STATES.START);
+            const delay = props?.delay ?? 0;
+
+            timeoutRef.current = setTimeout(() => {
+                setAnimate(ANIMATIONS_STATES.END);
+            }, 1500 + delay);
+        }, 0);
     }, []);
-    
+
     return (
         children({
-            animation: `show ${animate ? 'show-start' : 'show-end'}`,
+            animation: `${
+                animate === ANIMATIONS_STATES.START  ? 'show show-start'
+                : animate === ANIMATIONS_STATES.END ? 'show show-end'
+                : ''
+            }`,
             startAnimation
         })
     );
-}
+};
